@@ -18,6 +18,8 @@ Screenshots in this folder are referenced in the main README to give a quick vis
 | `azure-cli.png` | Azure CLI terminal |
 | `cloud-shell.png` | Azure Cloud Shell in browser |
 | `bicep-vscode.png` | Bicep extension in VS Code |
+| `github-copilot-vscode.png` | GitHub Copilot chat panel in VS Code |
+| `claude-desktop.png` | Claude Desktop app (Projects view or a conversation) |
 | `cost-management.png` | Azure Cost Management + Billing |
 | `azureprice.png` | azureprice.net VM comparison |
 | `app-insights.png` | Application Insights failures/overview blade |

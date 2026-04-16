@@ -17,6 +17,10 @@ A personal handbook of the best Azure tools, docs, and links — built for peopl
 ## 📋 Contents
 
 - [🚀 Start Here](#-start-here)
+  - [Azure essentials](#azure-essentials)
+  - [AI assistants](#ai-assistants--set-these-up-too)
+  - [Installing GitHub Copilot](#installing-github-copilot)
+  - [Installing Claude](#installing-claude)
 - [💻 CLI & Shell](#-cli--shell)
 - [🏗️ Infrastructure as Code](#️-infrastructure-as-code)
 - [💰 Cost & Billing](#-cost--billing)
@@ -40,7 +44,9 @@ A personal handbook of the best Azure tools, docs, and links — built for peopl
 
 ## 🚀 Start Here
 
-Five things every Azure user should have set up on day one.
+Everything you should have set up before you write a single line of code or click a single button in the portal. Split into **Azure essentials** and **AI assistants** — both matter equally.
+
+### Azure essentials
 
 | Tool | What it is | Get it |
 |------|-----------|--------|
@@ -49,6 +55,91 @@ Five things every Azure user should have set up on day one.
 | **VS Code + Azure extensions** | Best editor for Azure dev work | [code.visualstudio.com](https://code.visualstudio.com) |
 | **Azure Pricing Calculator** | Before you provision anything, check the cost | [azure.microsoft.com/pricing/calculator](https://azure.microsoft.com/en-us/pricing/calculator/) |
 | **Azure Status** | Is something down? Check here first | [status.azure.com](https://status.azure.com) |
+
+### AI assistants — set these up too
+
+These are the tools that actually speed up your day-to-day work. Pick your preferred AI chat tool and install Copilot in your editor. Both are worth having.
+
+| Tool | Best for | Get it |
+|------|---------|--------|
+| ⭐ **GitHub Copilot** | In-editor code completion + chat, Azure CLI help, PR summaries | [github.com/features/copilot](https://github.com/features/copilot) |
+| ⭐ **Claude (Anthropic)** | Long-context reasoning, architecture decisions, drafting docs | [claude.ai](https://claude.ai) |
+| **ChatGPT / GPT-4o** | General coding help, quick answers | [chatgpt.com](https://chatgpt.com) |
+| **Copilot in Azure Portal** | Ask questions about your live resources | Built into portal — click ✨ |
+
+> **Which AI for what?**
+> — Writing code & completing functions → GitHub Copilot (stays in your editor)
+> — "Explain this architecture" / "review my Bicep file" → Claude (best at long context + reasoning)
+> — Quick one-liners / general Q&A → any
+
+---
+
+### Installing GitHub Copilot
+
+**Option 1 — VS Code (recommended)**
+1. Install the [GitHub Copilot extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)
+2. Sign in with your GitHub account
+3. `Ctrl+I` / `Cmd+I` to open inline chat · `Ctrl+Shift+I` for the full chat panel
+
+**Option 2 — GitHub Copilot CLI** *(ask your terminal questions)*
+```bash
+# Install
+npm install -g @githubnext/github-copilot-cli   # legacy
+# or via GitHub CLI extension (current)
+gh extension install github/gh-copilot
+
+# Use it
+gh copilot suggest "az command to list all VMs across all resource groups"
+gh copilot explain "az group deployment create --what-if"
+```
+
+**Option 3 — GitHub Copilot Desktop** *(standalone chat app)*
+
+Download the desktop app — works outside your editor, useful for longer conversations and code reviews.
+
+🔗 [desktop.github.com/copilot](https://desktop.github.com) → Sign in → Copilot tab
+
+<img src="screenshots/github-copilot-vscode.png" alt="GitHub Copilot in VS Code" width="640">
+
+---
+
+### Installing Claude
+
+**Option 1 — Web**
+🔗 [claude.ai](https://claude.ai) — free tier available, Pro for Claude Sonnet/Opus
+
+**Option 2 — Claude Desktop** *(best option — runs locally, can access local files)*
+1. Download from [claude.ai/download](https://claude.ai/download)
+2. Sign in with your Anthropic account
+3. Enable **MCP (Model Context Protocol)** tools for local file/git access
+
+```
+Claude Desktop features:
+✓ Drag-and-drop files and images
+✓ Projects — persistent memory across conversations
+✓ MCP integrations (read local files, run commands, browse the web)
+✓ Extended context window (200k tokens — paste entire codebases)
+```
+
+**Option 3 — API**
+```bash
+pip install anthropic
+
+python - <<'EOF'
+import anthropic
+client = anthropic.Anthropic()
+msg = client.messages.create(
+    model="claude-opus-4-5",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Review this Bicep template: ..."}]
+)
+print(msg.content[0].text)
+EOF
+```
+
+🔗 [docs.anthropic.com](https://docs.anthropic.com) · [API pricing](https://www.anthropic.com/pricing)
+
+<img src="screenshots/claude-desktop.png" alt="Claude Desktop" width="640">
 
 ---
 
@@ -416,11 +507,67 @@ Private Docker registry tightly integrated with AKS, Azure Container Apps, and A
 
 ## 🤖 AI & Copilot
 
-### ⭐ Azure OpenAI Service
+### ⭐ GitHub Copilot
+![badge](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)
+![badge](https://img.shields.io/badge/Paid_(free_for_students)-green)
+
+The best AI tool for writing code. Lives inside your editor — completions as you type, inline chat for refactoring, a full chat panel for bigger questions. Now covers the whole dev workflow: code, tests, PRs, CLI.
+
+**Where it lives:**
+| Surface | What you get |
+|---------|-------------|
+| VS Code / JetBrains / Neovim | Inline completions + chat |
+| GitHub.com | PR summaries, code review, explain commit |
+| Terminal (via `gh copilot`) | Suggest & explain shell commands |
+| Desktop app | Standalone chat, outside your editor |
+
+**Killer features for Azure devs:**
+- Ask it to write Bicep/Terraform/YAML from a plain English description
+- `gh copilot suggest` in the terminal — never forget an `az` command again
+- Explain any error message by pasting it into chat
+
+🔗 [github.com/features/copilot](https://github.com/features/copilot) · [Pricing](https://github.com/features/copilot#pricing)
+
+<img src="screenshots/github-copilot-vscode.png" alt="GitHub Copilot in VS Code" width="640">
+
+---
+
+### ⭐ Claude (Anthropic)
+![badge](https://img.shields.io/badge/Anthropic-orange)
+![badge](https://img.shields.io/badge/Free_tier-green)
+
+The best AI for long-context reasoning — architecture decisions, reviewing long Bicep/Terraform files, drafting runbooks, explaining complex concepts. 200k token context window means you can paste an entire codebase.
+
+**Where it lives:**
+| Surface | What you get |
+|---------|-------------|
+| [claude.ai](https://claude.ai) | Web app, free tier (Claude Sonnet) |
+| Claude Desktop | Native app, file drag-and-drop, MCP tools |
+| API | Integrate into your own apps |
+
+**Most useful for Azure work:**
+- Paste a full ARM/Bicep template → "What does this do? What are the security risks?"
+- "Design the infrastructure for X workload on Azure, with cost in mind"
+- Draft architecture decision records (ADRs) and runbooks
+- Review IaC PRs — paste the diff and ask for a critique
+
+**Claude Desktop tips:**
+- Enable Projects for persistent memory per client/workload
+- Use MCP file server to give Claude read access to your local repo — no more pasting
+
+🔗 [claude.ai](https://claude.ai) · [Desktop download](https://claude.ai/download) · [API docs](https://docs.anthropic.com)
+
+<img src="screenshots/claude-desktop.png" alt="Claude Desktop" width="640">
+
+---
+
+### Azure OpenAI Service
 ![badge](https://img.shields.io/badge/Microsoft_Official-0078d4?logo=microsoft-azure&logoColor=white)
 ![badge](https://img.shields.io/badge/Paid-red)
 
-GPT-4, o1, DALL·E, Whisper, and Embeddings — via an Azure endpoint. Data stays in your Azure region, subject to your compliance policies. The right choice over openai.com API when data privacy matters.
+GPT-4o, o1, DALL·E, Whisper, and Embeddings — via an Azure endpoint inside your subscription. Data stays in your Azure region, subject to your compliance policies. The right choice over the openai.com API when data sovereignty matters.
+
+**vs openai.com API:** Same models, same performance — but your data doesn't leave your Azure tenant, you get SLAs, and it integrates with Entra ID for auth.
 
 📖 [Docs](https://learn.microsoft.com/azure/ai-services/openai/) · [Model comparison](https://learn.microsoft.com/azure/ai-services/openai/concepts/models)
 
@@ -430,7 +577,7 @@ GPT-4, o1, DALL·E, Whisper, and Embeddings — via an Azure endpoint. Data stay
 ![badge](https://img.shields.io/badge/Microsoft_Official-0078d4?logo=microsoft-azure&logoColor=white)
 ![badge](https://img.shields.io/badge/Free_tier-green)
 
-The unified workspace for building AI apps on Azure: model catalogue, prompt flow, evaluation, deployment. Good visual playground for testing models before committing code.
+The unified workspace for building AI apps on Azure: model catalogue (OpenAI + Meta + Mistral + others), prompt flow, evaluation, deployment. Good visual playground for testing models before committing code.
 
 🔗 [ai.azure.com](https://ai.azure.com) · 📖 [Docs](https://learn.microsoft.com/azure/ai-foundry/)
 
@@ -442,7 +589,12 @@ The unified workspace for building AI apps on Azure: model catalogue, prompt flo
 ![badge](https://img.shields.io/badge/Microsoft_Official-0078d4?logo=microsoft-azure&logoColor=white)
 ![badge](https://img.shields.io/badge/Preview-orange)
 
-AI assistant built into the Azure Portal. Ask it "Why is my VM CPU high?" or "Write a KQL query to find failed requests". Surprisingly good for quick queries and explaining resource configs.
+AI assistant built directly into the Azure Portal. Ask it questions about your live resources — it can see your actual subscription context.
+
+**Good prompts to try:**
+- *"Why is my App Service CPU at 90%?"*
+- *"Write a KQL query to find all failed requests in the last hour"*
+- *"What's the cheapest VM SKU that supports Premium SSD in norwayeast?"*
 
 **Activate:** Click the ✨ Copilot icon in the portal top bar.
 
