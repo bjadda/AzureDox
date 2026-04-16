@@ -1,0 +1,10 @@
+# .gitignore for AzureDox
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.swp
